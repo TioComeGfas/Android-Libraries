@@ -21,6 +21,7 @@ internal abstract class BaseNetworkClient(
     private val timeout: Int
 ): NetworkClient {
     protected var networkUrl: NetworkUrl = NetworkUrl.Factory.createDefault()
+    protected var responseBody: ResponseBody? = null
     protected var request: RequestBody? = null
     protected var networkMethod: NetworkMethod = NetworkMethod.Factory.createDefault()
     protected var listHeader: List<NetworkHeader> = emptyList()
