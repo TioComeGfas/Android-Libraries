@@ -21,9 +21,16 @@ class SharedPreferencesDelegate<T>(
         }
     }
 
+    fun getAll(): List<T> {
+        return runBlocking {
+            persistence.all<T>()
+        }
+    }
+
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
         return runBlocking {
             persistence.write(name, value)
         }
     }
+
 }

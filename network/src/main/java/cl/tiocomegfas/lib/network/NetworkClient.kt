@@ -1,25 +1,34 @@
 package cl.tiocomegfas.lib.network
 
 interface NetworkClient {
+    suspend fun https(
+        url: String
+    ): NetworkClient
 
-    suspend fun url(
-        url: NetworkUrl
+    suspend fun http(
+        url: String
     ): NetworkClient
 
     suspend fun query(
-        query: NetworkQuery
+        key: String,
+        name: Any?
     ): NetworkClient
 
     suspend fun queries(
-        queries: List<NetworkQuery>
+        queries: List<Pair<String, Any?>>
     ): NetworkClient
 
     suspend fun header(
-        header: NetworkHeader
+        key: String,
+        name: Any
     ): NetworkClient
 
     suspend fun headers(
-        headers: List<NetworkHeader>
+        headers: List<Pair<String, Any?>>
+    ): NetworkClient
+
+    suspend fun multipart(
+        part: Multipart
     ): NetworkClient
 
     suspend fun jsonStrategy(): NetworkClient
@@ -28,9 +37,7 @@ interface NetworkClient {
 
     suspend fun fileStrategy(path: String): NetworkClient
 
-    suspend fun post(
-        body: RequestBody
-    ): NetworkClient
+    suspend fun post(): NetworkClient
 
     suspend fun get(): NetworkClient
 

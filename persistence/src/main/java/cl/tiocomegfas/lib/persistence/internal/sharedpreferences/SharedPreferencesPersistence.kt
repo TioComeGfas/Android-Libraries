@@ -3,6 +3,7 @@ package cl.tiocomegfas.lib.persistence.internal.sharedpreferences
 import android.content.Context
 import android.content.SharedPreferences
 import cl.tiocomegfas.lib.persistence.Persistence
+import cl.tiocomegfas.lib.persistence.Storable
 
 internal class SharedPreferencesPersistence(
     context: Context,
@@ -20,6 +21,7 @@ internal class SharedPreferencesPersistence(
             is Float -> sharedPreferences.writeFloat(key, value)
             is Long -> sharedPreferences.writeLong(key, value)
             is String -> sharedPreferences.writeString(key, value)
+            is Storable -> sharedPreferences.writeString(key, value.toJson())
             else -> throw UnsupportedOperationException()
         }
     }
@@ -34,8 +36,13 @@ internal class SharedPreferencesPersistence(
             is Float -> sharedPreferences.readFloat(key, default) as T
             is Long -> sharedPreferences.readLong(key, default) as T
             is String -> sharedPreferences.readString(key, default) as T
+            is Storable -> default.fromJson(sharedPreferences.readString(key, "")) as T
             else -> throw UnsupportedOperationException()
         }
+    }
+
+    override suspend fun <T> all(): List<T> {
+        return sharedPreferences.all.values.toList() as List<T>
     }
 
     override suspend fun contains(key: String): Boolean {
