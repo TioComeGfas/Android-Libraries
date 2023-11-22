@@ -1,5 +1,8 @@
 package cl.tiocomegfas.lib.network
 
+import android.graphics.Bitmap
+import androidx.annotation.IntRange
+
 interface NetworkClient {
     suspend fun https(
         url: String
@@ -11,31 +14,22 @@ interface NetworkClient {
 
     suspend fun query(
         key: String,
-        name: Any?
-    ): NetworkClient
-
-    suspend fun queries(
-        queries: List<Pair<String, Any?>>
+        value: String
     ): NetworkClient
 
     suspend fun header(
         key: String,
-        name: Any
+        value: String
     ): NetworkClient
 
-    suspend fun headers(
-        headers: List<Pair<String, Any?>>
+    suspend fun addImageToBody(
+        image: Bitmap?,
+        @IntRange(from = 0L, to = 100L) quality: Int = 75,
     ): NetworkClient
 
-    suspend fun multipart(
-        part: Multipart
+    suspend fun body(
+        data: cl.tiocomegfas.lib.network.internal.shared.request.RequestBody
     ): NetworkClient
-
-    suspend fun jsonStrategy(): NetworkClient
-
-    suspend fun xmlStrategy(): NetworkClient
-
-    suspend fun fileStrategy(path: String): NetworkClient
 
     suspend fun post(): NetworkClient
 
