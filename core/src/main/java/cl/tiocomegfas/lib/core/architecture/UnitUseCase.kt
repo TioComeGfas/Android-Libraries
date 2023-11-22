@@ -7,7 +7,7 @@ import kotlinx.coroutines.withContext
 
 abstract class UnitUseCase(
     private val dispatcher: CoroutineDispatcher
-): UseCase<Unit, Unit, Unit> {
+): BaseUseCase<Unit, Unit, Unit>() {
     private var onSuccess: (suspend (ResourceState.Success<Unit>) -> Unit)? = {}
     private var onFailure: (suspend (ResourceState.Error<Unit>) -> Unit)? = {}
     @RestrictTo(RestrictTo.Scope.LIBRARY)
@@ -26,20 +26,21 @@ abstract class UnitUseCase(
         }
     }
 
-    suspend fun onSuccess(callback: suspend (ResourceState.Success<Unit>) -> Unit): UseCase<Unit,Unit,Unit> {
+    override suspend fun onSuccess(callback: suspend (ResourceState.Success<Unit>) -> Unit): UseCase<Unit,Unit,Unit> {
         onSuccess = callback
         return this
     }
 
-    suspend fun onFailure(callback: suspend (ResourceState.Error<Unit>) -> Unit): UseCase<Unit,Unit,Unit> {
+    override suspend fun onFailure(callback: suspend (ResourceState.Error<Unit>) -> Unit): UseCase<Unit,Unit,Unit> {
         onFailure = callback
         return this
     }
 
-    suspend fun execute() {
+    override suspend fun execute() {
         this.invoke(Unit)
     }
 
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
     override suspend fun dispose() {
         dispatcher.cancel()
         onFailure = null

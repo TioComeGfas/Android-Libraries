@@ -5,9 +5,9 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.withContext
 
-abstract class SimpleUseCase<in Request, Mapped>(
+abstract class ComplexUseCase<in Request, Response, Mapped>(
     private val dispatcher: CoroutineDispatcher
-): BaseUseCase<Request, Mapped, Mapped>() {
+): BaseUseCase<Request, Response, Mapped>() {
     private var params: Request? = null
     private var onSuccess: (suspend (ResourceState.Success<@UnsafeVariance Mapped>) -> Unit)? = {}
     private var onFailure: (suspend (ResourceState.Error<@UnsafeVariance Mapped>) -> Unit)? = {}
@@ -28,18 +28,18 @@ abstract class SimpleUseCase<in Request, Mapped>(
         }
     }
 
-    override suspend fun setParams(params: Request): UseCase<@UnsafeVariance Request, @UnsafeVariance Mapped, @UnsafeVariance Mapped> {
+    override suspend fun setParams(params: Request): UseCase<Request, Response, Mapped> {
         this.params = params
         return this
     }
 
-    override suspend fun onSuccess(callback: suspend (ResourceState.Success<@UnsafeVariance Mapped>) -> Unit): UseCase<@UnsafeVariance Request, @UnsafeVariance Mapped, @UnsafeVariance Mapped> {
-        onSuccess = callback
+    override suspend fun onSuccess(callback: suspend (ResourceState.Success<Mapped>) -> Unit): UseCase<Request, Response, Mapped> {
+        this.onSuccess = callback
         return this
     }
 
-    override suspend fun onFailure(callback: suspend (ResourceState.Error<@UnsafeVariance Mapped>) -> Unit): UseCase<@UnsafeVariance Request, @UnsafeVariance Mapped, @UnsafeVariance Mapped> {
-        onFailure = callback
+    override suspend fun onFailure(callback: suspend (ResourceState.Error<Mapped>) -> Unit): UseCase<Request, Response, Mapped> {
+        this.onFailure = callback
         return this
     }
 

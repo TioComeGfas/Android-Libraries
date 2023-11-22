@@ -1,11 +1,8 @@
 package cl.tiocomegfas.lib.core.architecture
 
-import kotlinx.coroutines.flow.Flow
-
 interface UseCase<in Request, Response, out Mapped> {
-    suspend fun invoke(request: Request)
-    suspend fun onRequestHandler(request: Request): Response
-    suspend fun onResponseHandler(response: Response): Mapped
-    suspend fun onErrorHandler(cause: Throwable): Mapped
-    suspend fun dispose()
+    suspend fun setParams(params: Request): UseCase<@UnsafeVariance Request, @UnsafeVariance Response, @UnsafeVariance Mapped>
+    suspend fun onSuccess(callback: suspend (ResourceState.Success<@UnsafeVariance Mapped>) -> Unit): UseCase<@UnsafeVariance Request, @UnsafeVariance Response, @UnsafeVariance Mapped>
+    suspend fun onFailure(callback: suspend (ResourceState.Error<@UnsafeVariance Mapped>) -> Unit): UseCase<@UnsafeVariance Request, @UnsafeVariance Response, @UnsafeVariance Mapped>
+    suspend fun execute()
 }
