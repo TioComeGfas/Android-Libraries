@@ -5,13 +5,14 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import java.util.Calendar
+import java.util.Locale
 import kotlin.reflect.KClass
 
 internal class AlarmCompatImpl(
     private val context: Context
 ): AlarmCompat {
     private var manager: AlarmManager? = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    override fun configureAlarm(data: AlarmData, receiver: KClass<AlarmReceiver>) {
+    override fun <T : AlarmReceiver> configureAlarm(data: AlarmData, receiver: KClass<T>) {
         val intent = Intent(context, receiver.java)
         val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE)
 
@@ -21,23 +22,15 @@ internal class AlarmCompatImpl(
         timeToWakeUp.set(Calendar.MINUTE, data.minutesWakeUp)
         timeToWakeUp.set(Calendar.SECOND, data.secondsWakeUp)
 
-        // Configure time to nex day for wake up
-        val newTimeToWakeUp = Calendar.getInstance()
-        newTimeToWakeUp.time = timeToWakeUp.time
-        newTimeToWakeUp.add(
-            Calendar.DAY_OF_YEAR,
-            if(data.repeatInHours < 24) 1 else data.repeatInHours / 24
-        )
-
         manager?.setRepeating(
             AlarmManager.RTC_WAKEUP,
-            newTimeToWakeUp.time.time,
-            data.repeatInHours.toLong(),
+            timeToWakeUp.timeInMillis,
+            (1000 * 60 * 60 * data.repeatInHours).toLong(),
             pendingIntent
         )
     }
 
-    override fun cancelAlarm(receiver: KClass<AlarmReceiver>) {
+    override fun <T : AlarmReceiver> cancelAlarm(receiver: KClass<T>) {
         val intent = Intent(context, receiver.java)
         val sender = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE)
         manager?.cancel(sender)
