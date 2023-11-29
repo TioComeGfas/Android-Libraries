@@ -1,10 +1,9 @@
 package cl.tiocomegfas.lib.bluetooth
 
-import android.bluetooth.BluetoothDevice
-
 interface BluetoothClient {
     fun initialize()
-    suspend fun scan(time: Long): List<BluetoothDevice>
-    suspend fun connect(device: BluetoothDevice): Boolean
+    suspend fun scan(timeout: Long): List<DeviceBluetooth>
+    suspend fun stop()
+    suspend fun connect(device: DeviceBluetooth): Boolean
     fun release()
 }
