@@ -3,7 +3,7 @@ package cl.tiocomegfas.lib.uicompose.typography.style
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import cl.tiocomegfas.lib.uicompose.color.AndroidColorFactory
-import cl.tiocomegfas.lib.uicompose.size.Size
+import cl.tiocomegfas.lib.uicompose.measurement.Size
 import cl.tiocomegfas.lib.uicompose.typography.font.AndroidFont
 
 internal class TitleAndroidStyle: AndroidStyle {

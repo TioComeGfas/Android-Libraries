@@ -1,11 +1,11 @@
-package cl.tiocomegfas.lib.uicompose.size
+package cl.tiocomegfas.lib.uicompose.measurement
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-enum class Size(
+enum class Measurement(
     private val value: Int
 ) {
     SIZE_4(4),

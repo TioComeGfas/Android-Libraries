@@ -20,11 +20,11 @@ dependencyResolutionManagement {
 
 rootProject.name = "Android-Libraries"
 include(":app")
-include(":bluetooth")
+//include(":bluetooth")
 //include(":ui-view")
 //include(":network")
 //include(":persistence")
 //include(":catalog")
-//include(":core")
+include(":core")
 //include(":flagr")
 //include(":ui-compose")
