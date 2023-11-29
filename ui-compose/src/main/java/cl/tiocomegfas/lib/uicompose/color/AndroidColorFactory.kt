@@ -1,0 +1,33 @@
+package cl.tiocomegfas.lib.uicompose.color
+
+object AndroidColorFactory {
+    fun createAvocado(): AndroidColor = AvocadoColor()
+    fun createLime(): AndroidColor = LimeColor()
+    fun createOrange(): AndroidColor = OrangeColor()
+    fun createCherry(): AndroidColor = CherryColor()
+    fun createBlueberry(): AndroidColor = BlueberryColor()
+    fun createRaspberry(): AndroidColor = RaspberryColor()
+    fun createGrape(): AndroidColor = GrapeColor()
+    fun createAgave(): AndroidColor = AgaveColor()
+    fun createNeutral(): AndroidColor = NeutralColor()
+    fun createRed(): AndroidColor = RedColor()
+    fun createPink(): AndroidColor = PinkColor()
+    fun createPurple(): AndroidColor = PurpleColor()
+    fun createDeepPurple(): AndroidColor = DeepPurpleColor()
+    fun createIndigo(): AndroidColor = IndigoColor()
+    fun createBlue(): AndroidColor = BlueColor()
+    fun createLightBlue(): AndroidColor = LightBlueColor()
+    fun createCyan(): AndroidColor = CyanColor()
+    fun createTeal(): AndroidColor = TealColor()
+    fun createGreen(): AndroidColor = GreenColor()
+    fun createLightGreen(): AndroidColor = LightGreenColor()
+    fun createYellow(): AndroidColor = YellowColor()
+    fun createAmber(): AndroidColor = AmberColor()
+    fun createDeepOrange(): AndroidColor = DeepOrangeColor()
+    fun createBrown(): AndroidColor = BrownColor()
+    fun createGrey(): AndroidColor = GreyColor()
+    fun createBlueGrey(): AndroidColor = BlueGreyColor()
+    fun createWhite(): AndroidColor = WhiteColor()
+    fun createBlack(): AndroidColor = BlackColor()
+
+}
