@@ -9,15 +9,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 abstract class BaseService: Service() {
     // Thread in the work service
     protected var thread: ExecutorService? = null
-    // Coroutine for call suspends functions
-    private val job = SupervisorJob()
-    protected val coroutine = CoroutineScope(Dispatchers.IO + job)
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -29,12 +27,11 @@ abstract class BaseService: Service() {
         // Create thread for work in service
         try {
             thread?.execute {
-                coroutine.launch {
+                runBlocking {
                     onStartWork()
                     stopSelf()
                 }
             }
-
         } catch (e: InterruptedException) {
             thread?.shutdownNow()
             Thread.currentThread().interrupt()
@@ -48,6 +45,5 @@ abstract class BaseService: Service() {
     override fun onDestroy() {
         super.onDestroy()
         thread?.shutdown()
-        coroutine.cancel()
     }
 }
